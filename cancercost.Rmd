@@ -1,0 +1,64 @@
+---
+title: "Cancer Cost Clean Up"
+author: "J. Handzel"
+date: "Nov 23, 2018"
+output: html_document
+---
+##options(repos="https://cran.rstudio.com" )
+##{r setup, include=FALSE}
+##knitr::opts_chunk$set(echo = TRUE)
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+install.packages("tidyverse")
+
+
+
+```{r cancerdata}
+
+library(tidyverse)
+#So with nusdata in your workspace, in the console save to a .RData file:
+#save(nusdata, file="nusdata.RData")
+#Then, in a code chunk in the R Markdown file, load the data from the file:
+#load(file="nusdata.RData")
+
+#save(cancercostdata, file="cancercostdata.RData") (do this once)
+load(file="cancercostdata.rdata")
+
+cancercost_clean <- cancercostdata
+
+#Fix variable names
+
+library(data.table)
+setnames(cancercost_clean, old = c('Cost of Cancer Care by Phase of Care','X2','X3','X4','X5','X6','X7','X8','X9','X10'), new = c('Site','Year','Sex','Age','Trends','Incr%', 'total$', '1st.yr$', 'Ongoing.yr$', 'last.yr$'))
+
+
+#Remove header rows
+cancercost_clean <- cancercost_clean[4:1257, ]
+
+write.csv(cancercost_clean, file = "cancercost_clean.csv")
+
+ head(cancercost_clean)
+```
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+```
+
+
