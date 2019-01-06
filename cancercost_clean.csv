@@ -1,4 +1,4 @@
-"","Site","Year","Sex","Age","Trends","Incr%","total$","1st.yr$","Ongoing.yr$","last.yr$"
+"","Site","Year","Sex","Age","Trends","Incr","totalcost","1st.yr","Ongoing.yr","last.yr"
 "1","AllSites","2010","Both sexes","All ages","Incidence, Survival at constant rate","0%","124565.6","40463.5","46642.8","37459.2"
 "2","AllSites","2010","Both sexes","All ages","Incidence follows recent trend, Survival constant","0%","122420.8","38552.7","46671.9","37196.3"
 "3","AllSites","2010","Both sexes","All ages","Survival follows recent trend, Incidence constant","0%","125397.7","40463.5","47136.3","37797.9"

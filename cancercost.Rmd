@@ -1,47 +1,59 @@
 ---
-title: "Cancer Cost Clean Up"
+title: "Cancer Cost"
 author: "J. Handzel"
 date: "Nov 23, 2018"
 output: html_document
 ---
 ##options(repos="https://cran.rstudio.com" )
 ##{r setup, include=FALSE}
-##knitr::opts_chunk$set(echo = TRUE)
+##knitr::opts_chunk$set(echo = FALSE)
 
 
-## R Markdown
+##Cancer Cost Analysis for Determining Clinical Trial Candidates
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This R Markdown document contains the code and notes to generate an HTML document to analyze National Institute of Health Cancer costs and projections and determine target cancer candidates for clinical trials.
 
 install.packages("tidyverse")
 
 
 
 ```{r cancerdata}
-
 library(tidyverse)
-#So with nusdata in your workspace, in the console save to a .RData file:
-#save(nusdata, file="nusdata.RData")
-#Then, in a code chunk in the R Markdown file, load the data from the file:
-#load(file="nusdata.RData")
-
-#save(cancercostdata, file="cancercostdata.RData") (do this once)
+library(knitr)
+library(data.table)
+#note: save(cancercostdata, file="cancercostdata.RData") (do this once)
 load(file="cancercostdata.rdata")
 
 cancercost_clean <- cancercostdata
+##Step 1 : Data Cleanup
+# The dataset from NIH posessed the required attributes for tidy data so no gathering or spreading was required:  
 
-#Fix variable names
+#Each variable must have its own column.
+#Each observation must have its own row.
+#Each value must have its own cell.
 
-library(data.table)
-setnames(cancercost_clean, old = c('Cost of Cancer Care by Phase of Care','X2','X3','X4','X5','X6','X7','X8','X9','X10'), new = c('Site','Year','Sex','Age','Trends','Incr%', 'total$', '1st.yr$', 'Ongoing.yr$', 'last.yr$'))
+#Fix variable names:  Much of the data was imported with X column names with long descriptions.   Data variables were renamed with short desciptive labels. 
 
 
-#Remove header rows
+setnames(cancercost_clean, old = c('Cost of Cancer Care by Phase of Care','X2','X3','X4','X5','X6','X7','X8','X9','X10'), new = c('Site','Year','Sex','Age','Trends','Incr', 'totalcost', '1st.yr', 'Ongoing.yr', 'last.yr'))
+
+
+#Remove header rows : Long descriptive column headings were removed.
 cancercost_clean <- cancercost_clean[4:1257, ]
+#No missing data was changed.
 
+##Step 2:   Clean Dataset is written to cancercost_clean
 write.csv(cancercost_clean, file = "cancercost_clean.csv")
 
- head(cancercost_clean)
+
+summary(cancercost_clean)
+
+
+# Show tibble with just 2020 data abd maximum increment in incidence and survival trends (Largest Costs)
+data2020 <- cancercost_clean[ which(cancercost_clean$Year=='2020' & cancercost_clean$Incr=='5%'), ]
+data2020$Age <- NULL
+head(data2020,19)
+
 ```
 
 
